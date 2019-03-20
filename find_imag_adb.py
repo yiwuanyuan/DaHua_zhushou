@@ -8,6 +8,7 @@ import aircv as ac
 import cv2
 import autopy
 import time
+from screenshot import *
 from PIL import Image
 import numpy as np
 from PIL import ImageGrab
@@ -18,10 +19,7 @@ class MatchImg:  # imgsrc=原始图像，imgobj=待查找的图片
         if type(x) == str:
             imm = ac.imread(x)
         else:
-            if x ==0 :
-                im = ImageGrab.grab()
-            else:
-                im = ImageGrab.grab(x)
+            im = pull_screenshot()
             imm = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
 
         self.imsrc = imm
@@ -43,20 +41,8 @@ class MatchImg:  # imgsrc=原始图像，imgobj=待查找的图片
 
 
 if __name__ == '__main__':
-    # example = MatchImg('element/TaskButton1.png',0,0.1)
-    # print(example.is_match())
+    example = MatchImg('element/big_map.png','autojump.png',0.1)
+    print(example.is_match())
 
-    not_find = True
-    while not_find:
-        autopy.mouse.move(158,285)
-        autopy.mouse.toggle(button=autopy.mouse.Button.LEFT,down=True)
-        autopy.mouse.smooth_move(158, 184)
-        autopy.mouse.toggle(button=autopy.mouse.Button.LEFT, down=False)
-        time.sleep(3)
-        example = MatchImg('element/test01.png', 0, 0.1).is_match()
-        if  not example:
-            pass
-        else:
-            not_find = True
-            print(example)
+
 
